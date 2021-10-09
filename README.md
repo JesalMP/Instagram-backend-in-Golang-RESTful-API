@@ -41,4 +41,11 @@ format: use gormat localhost:3000/posts/user/{id} where {id} is the user id whos
 
 		Other Technologies
 *Mutex locks and unlocks have been used from sync imports to provide thread failsafe and avoid deadlocks
+
 *Passwords of User are hashed and only hashed data is shown to developer to provide better privacy and security
+
+_Mongodb port: 27017_
+
+_Mongodb databast name APPOINTY_19BCE1259_db_
+
+_HTTP Web server port: 3000 _
