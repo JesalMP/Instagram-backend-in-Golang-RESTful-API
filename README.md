@@ -1,7 +1,6 @@
-    **_DOCUMENTATION_**
+    _DOCUMENTATION_
     
-**Create User(POST Method)
-**
+**Create User(POST Method)**
 
 format: localhost:3000/user and Thunder client to post the JSON of user data in structure :
 type User struct {
@@ -14,8 +13,7 @@ type User struct {
 ![image](https://user-images.githubusercontent.com/84318539/136668392-8281dac4-6fbe-4562-b91a-791c0f00aa47.png)
 ![image](https://user-images.githubusercontent.com/84318539/136668396-d557aa7f-65fa-49ef-aa45-d2a68481cddb.png)
 
-**Create Post(POST Method)
-**
+**Create Post(POST Method)**
 
 format: localhost:3000/posts and Thunder client to post the JSON of Post data in structure :
 type Posts struct {
@@ -41,4 +39,6 @@ format: use gormat localhost:3000/posts/{id} where {id} is the post id whose dat
 format: use gormat localhost:3000/posts/user/{id} where {id} is the user id whose all posts data is to be extracted and post it in browser or thunderclient GET method.
 ![image](https://user-images.githubusercontent.com/84318539/136668571-5e4b9d78-9ed7-4588-ac66-b5ed57b2e1d5.png)
 
-
+		Other Technologies
+*Mutex locks and unlocks have been used from sync imports to provide thread failsafe and avoid deadlocks
+*Passwords of User are hashed and only hashed data is shown to developer to provide better privacy and security
