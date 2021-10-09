@@ -2,6 +2,11 @@
 
 DOCUMENTATION>
 
+      **_Thread Protection_**
+      Mutex has been used to proveid Thread protection in function application, to remove deadlock or data hazards
+
+
+
 **Structures:**
 defined in ibe/models
 
