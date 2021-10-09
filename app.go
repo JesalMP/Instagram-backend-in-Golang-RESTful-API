@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"regexp"
+	"strings"
 	"sync"
 
 	"gopkg.in/mgo.v2/bson"
@@ -11,13 +13,17 @@ import (
 	. "github.com/JesalMP/appointyRESTproj/config"
 	. "github.com/JesalMP/appointyRESTproj/dao"
 	. "github.com/JesalMP/appointyRESTproj/models"
-	"github.com/gorilla/mux"
 )
 
 var config = Config{}
 var dao = MoviesDAO{}
 var (
 	mutex sync.Mutex
+)
+var (
+	getUserRe   = regexp.MustCompile(`^\/users\/([a-zA-Z0-9]+)$`)
+	getPostRe   = regexp.MustCompile(`^\/posts\/([a-zA-Z0-9]+)$`)
+	getUserPost = regexp.MustCompile(`^\/posts\/users\/([a-zA-Z0-9]+)$`)
 )
 
 func AllUsersEndPoint(w http.ResponseWriter, r *http.Request) {
@@ -33,9 +39,8 @@ func AllUsersEndPoint(w http.ResponseWriter, r *http.Request) {
 //
 func FinduserEndpoint(w http.ResponseWriter, r *http.Request) {
 	mutex.Lock()
-
-	params := mux.Vars(r)
-	user, err := dao.FindUserById(params["id"])
+	id := strings.TrimPrefix(r.URL.Path, "/user/")
+	user, err := dao.FindUserById(id)
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, "Invalid user ID")
 		return
@@ -45,8 +50,8 @@ func FinduserEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 func FindPostEndpoint(w http.ResponseWriter, r *http.Request) {
 	mutex.Lock()
-	params := mux.Vars(r)
-	post, err := dao.FindPostById(params["id"])
+	id := strings.TrimPrefix(r.URL.Path, "/posts/")
+	post, err := dao.FindPostById(id)
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, "Invalid Post ID")
 		return
@@ -56,8 +61,8 @@ func FindPostEndpoint(w http.ResponseWriter, r *http.Request) {
 }
 func FindPostsbyUserEndpoint(w http.ResponseWriter, r *http.Request) {
 	mutex.Lock()
-	params := mux.Vars(r)
-	post, err := dao.FindPostsbyUser(params["id"])
+	id := strings.TrimPrefix(r.URL.Path, "/posts/users/")
+	post, err := dao.FindPostsbyUser(id)
 	if err != nil {
 		respondWithError(w, http.StatusBadRequest, "Invalid User ID")
 		return
@@ -124,14 +129,14 @@ func init() {
 
 // Define HTTP request routes
 func main() {
-	//r := http.NewServeMux()
-	r := mux.NewRouter() //
-	r.HandleFunc("/user/{id}", FinduserEndpoint).Methods("GET")
-	r.HandleFunc("/user", CreateUserEndPoint).Methods("POST")
-	r.HandleFunc("/posts", CreatePostEndPoint).Methods("POST")
-	r.HandleFunc("/posts/{id}", FindPostEndpoint).Methods("GET")
-	r.HandleFunc("/posts/users/{id}", FindPostsbyUserEndpoint).Methods("GET")
-	if err := http.ListenAndServe(":3000", r); err != nil {
+	mux := http.NewServeMux()
+	//r := mux.NewRouter() //
+	mux.HandleFunc("/user/", FinduserEndpoint)
+	mux.HandleFunc("/user", CreateUserEndPoint)
+	mux.HandleFunc("/posts", CreatePostEndPoint)
+	mux.HandleFunc("/posts/", FindPostEndpoint)
+	mux.HandleFunc("/posts/users/", FindPostsbyUserEndpoint)
+	if err := http.ListenAndServe(":3000", mux); err != nil {
 		log.Fatal(err)
 	}
 }
