@@ -30,8 +30,9 @@ Mongo db Database name= APPOINTY_19BCE1259_db
 HOW TO USE:
 
 Create user:
-![image](https://user-images.githubusercontent.com/84318539/136667055-f6aa8436-15bd-42b7-994c-9bd0efb60bb9.png)
 POST the user data in json format provided in ibe/models.
+![image](https://user-images.githubusercontent.com/84318539/136667055-f6aa8436-15bd-42b7-994c-9bd0efb60bb9.png)
+
 ![image](https://user-images.githubusercontent.com/84318539/136667071-1d6ca35c-aa1b-4d28-8474-ad4a13702ec4.png)
 ![image](https://user-images.githubusercontent.com/84318539/136667079-b22e1ab4-7fc8-473b-83e5-3b1d21cb79ae.png)
 
